@@ -50,10 +50,6 @@
         button:hover {
             background-color: #0d28a9;
         }
-        canvas {
-            margin-top: 20px;
-            max-width: 100%;
-        }
     </style>
 </head>
 <body>
@@ -81,14 +77,10 @@
             <p><strong>Total Profit for <span id="totalQuantity">0</span> Sales:</strong> <span id="totalProfit">0</span> €</p>
         </div>
 
-        <canvas id="earningsChart" width="400" height="200"></canvas>
-
         <div class="info">
             <p>This calculator reflects a direct 50% commission on the original sale price, multiplied by the quantity sold.</p>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
         // Function to update quantity display from the slider
@@ -96,7 +88,7 @@
             document.getElementById('quantityDisplay').textContent = value;
         }
 
-        // Function to calculate earnings and update the chart
+        // Function to calculate earnings
         function calculateEarnings() {
             const salePrice = parseFloat(document.getElementById('salePrice').value) || 0;
             const quantity = parseInt(document.getElementById('quantity').value) || 0;
@@ -112,54 +104,6 @@
             document.getElementById('affiliateEarnings').textContent = affiliateEarnings.toFixed(2);
             document.getElementById('totalQuantity').textContent = quantity;
             document.getElementById('totalProfit').textContent = totalProfit.toFixed(2);
-
-            // Create or update the chart
-            drawChart(affiliateEarnings, quantity);
-        }
-
-        // Function to draw the chart
-        function drawChart(affiliateEarnings, quantity) {
-            const ctx = document.getElementById('earningsChart').getContext('2d');
-            
-            // Clear the previous chart instance if it exists
-            if (window.earningsChart) {
-                window.earningsChart.destroy();
-            }
-
-            // Data for the chart
-            const chartData = {
-                labels: ['1 Sale', '10 Sales', '50 Sales', '100 Sales', '200 Sales', '500 Sales'],
-                datasets: [{
-                    label: 'Total Profit (€)',
-                    data: [
-                        affiliateEarnings * 1,
-                        affiliateEarnings * 10,
-                        affiliateEarnings * 50,
-                        affiliateEarnings * 100,
-                        affiliateEarnings * 200,
-                        affiliateEarnings * 500
-                    ],
-                    backgroundColor: '#1134d1',
-                    borderColor: '#1134d1',
-                    borderWidth: 1
-                }]
-            };
-
-            // Options for the chart
-            const chartOptions = {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            };
-
-            // Create the chart
-            window.earningsChart = new Chart(ctx, {
-                type: 'bar',
-                data: chartData,
-                options: chartOptions
-            });
         }
     </script>
 
